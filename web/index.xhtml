@@ -8,7 +8,7 @@
 
         <ui:composition template="./template.xhtml">
             <ui:define name="left"></ui:define>
-            
+
             <ui:define name="center">
                 <div class="col-lg-3 align-self-center">
                     <div class="box">
@@ -26,7 +26,7 @@
                             </div>
 
                             <div class="form-group">
-                                <h:commandButton class="btn btn-primary btn-block" id="login" value="Log in" action="main" />
+                                <h:commandButton class="btn btn-primary btn-block" id="login" value="Log in" action="#{loginBean.login}" />
                             </div>
                         </h:form>
 
@@ -35,11 +35,19 @@
                                 <h:commandButton class="btn btn-outline-primary btn-block" id="signin" value="Sign in" action="registration" />
                             </div>
                         </h:form>
+                        
+                        <h:link outcome="/users/List" value="Show All Users"/>
                     </div>
                 </div>
             </ui:define>
-            
+
             <ui:define name="right"></ui:define>
         </ui:composition>
+        <br />
+        <h:link outcome="/chirp/List" value="Show All Chirp Items"/>
+        <br />
+        <h:link outcome="/users/List" value="Show All Users Items"/>
     </body>
+
+
 </html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditChirpTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditChirpLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{chirpController.selected.id}" title="#{bundle.EditChirpTitle_id}" required="true" requiredMessage="#{bundle.EditChirpRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditChirpLabel_userName}" for="userName" />
+                    <h:inputText id="userName" value="#{chirpController.selected.userName}" title="#{bundle.EditChirpTitle_userName}" />
+                    <h:outputLabel value="#{bundle.EditChirpLabel_textChirp}" for="textChirp" />
+                    <h:inputText id="textChirp" value="#{chirpController.selected.textChirp}" title="#{bundle.EditChirpTitle_textChirp}" />
+                </h:panelGrid>
+                <h:commandLink action="#{chirpController.update}" value="#{bundle.EditChirpSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditChirpViewLink}"/>
+                <br />
+                <h:commandLink action="#{chirpController.prepareList}" value="#{bundle.EditChirpShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditChirpIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

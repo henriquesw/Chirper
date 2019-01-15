@@ -13,8 +13,7 @@
                 <div class="row chirp down">
                     <div class="col"></div>
                     <div class="col-lg-5 box">
-                        <h3>hsw000</h3>
-
+                        <h:outputText value="#{loginBean.user}"/>
                     </div>
                 </div>
             </ui:define>
@@ -32,7 +31,10 @@
                                 </div>
                             </h:form>
                         </div>
-                        <ui:insert name="chirp">Chirp</ui:insert>
+                        <div class="box chirp">
+                            <h5>User</h5>
+                            <p>Aqui ficara escrito o chirp</p>
+                        </div>
                     </div>
                 </div>
             </ui:define>
