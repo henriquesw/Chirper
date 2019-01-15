@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Confirmation Page</title>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+    <h:body>
+        <h2>Confirmation Page</h2>
+        
+        <h:panelGrid columns="2" columnClasses="rightalign-bold, leftalign">
+            <h:outputText value="User: "/>
+            <h:outputText value="#{registrationBean.user}"/>
+            
+            <h:outputText value="Email Address: "/>
+            <h:outputText value="#{registrationBean.email}"/>
+            
+            <h:outputText value="Password: "/>
+            <h:outputText value="#{registrationBean.password}"/>
+            
+            <h:outputText value="Password Confirmation: "/>
+            <h:outputText value="#{registrationBean.passwordConfirmation}"/>
+            
+            <p>Successful Registration</p>
+            
+        </h:panelGrid>
+    </h:body>
+</html>
+

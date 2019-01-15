@@ -1,0 +1,28 @@
+.bg {
+    height: 100vh;
+    background-color: whitesmoke;
+}
+
+root { 
+    display: block;
+}
+
+.full {
+    height: 100vh;
+}
+
+.box {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.chirp {
+    min-height: 10vh;
+    margin-bottom: 2vh;
+}
+
+.down {
+    margin-top: 10vh;
+}
+

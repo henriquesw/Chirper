@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+            <ui:define name="left"></ui:define>
+            
+            <ui:define name="center">
+                <div class="col-lg-3 align-self-center">
+                    <div class="box">
+                        <h:form>
+                            <div class="form-group">
+                                <label for="user">User</label>
+                                <h:inputText class="form-control" id="user" label="User" required="true" value="#{loginBean.user}"/>
+                                <h:message for="user"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <h:inputSecret class="form-control" id="password" label="Password" required="true" value="#{loginBean.password}"/>
+                                <h:message for="password"/>
+                            </div>
+
+                            <div class="form-group">
+                                <h:commandButton class="btn btn-primary btn-block" id="login" value="Log in" action="main" />
+                            </div>
+                        </h:form>
+
+                        <h:form>
+                            <div class="form-group">
+                                <h:commandButton class="btn btn-outline-primary btn-block" id="signin" value="Sign in" action="registration" />
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+            
+            <ui:define name="right"></ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+            
+            <ui:define name="left">
+                <div class="row chirp down">
+                    <div class="col"></div>
+                    <div class="col-lg-5 box">
+                        <h3>hsw000</h3>
+
+                    </div>
+                </div>
+            </ui:define>
+
+            <ui:define name="center">
+                <div class="col-lg">
+                    <div class="down">
+                        <div class="box chirp">
+                            <h:form>
+                                <div class="form-group">
+                                    <h:inputTextarea class="form-control" rows="3" pt:placeholder="Write your chirp"  value="#{chirpBean.chirp}"/>
+                                </div>
+                                <div style="text-align: right;">
+                                    <h:commandButton class="btn btn-primary" id="chirp" value="Chirp"/>
+                                </div>
+                            </h:form>
+                        </div>
+                        <ui:insert name="chirp">Chirp</ui:insert>
+                    </div>
+                </div>
+            </ui:define>
+
+            <ui:define name="right"></ui:define>
+        </ui:composition>
+    </body>
+</html>
