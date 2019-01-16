@@ -22,6 +22,11 @@ root {
     margin-bottom: 2vh;
 }
 
+.user {
+    font-weight: bold;
+    font-size: 20px;
+}
+
 .down {
     margin-top: 10vh;
 }

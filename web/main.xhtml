@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -13,7 +14,30 @@
                 <div class="row chirp down">
                     <div class="col"></div>
                     <div class="col-lg-5 box">
-                        <h:outputText value="#{loginBean.user}"/>
+                        <h:outputText class="user" value="#{userManager.aux}"/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <h:form>
+                            <h:inputText class="form-control" pt:placeholder="User" value="#{followersController.selected.userName2}"/>
+                            <br/>
+                            <h:commandButton class="form-control btn btn-outline-primary" value="Stalk!" type="submit" action="#{followersController.create}"/>
+                        </h:form>
+                    </div>
+                </div>
+                <div class="row chirp">
+                    <div class="col"></div>
+                    <div class="col-lg-5 box">
+                        <h1 class="user">Stalked by you</h1>
+                        <h:form styleClass="jsfcrud_list_form">
+                            <h:panelGroup rendered="#{followersController.items.rowCount > 0}">
+                                <h:dataTable class="col" value="#{followersController.items}" var="item">
+                                    <h:column>
+                                        <h:outputText value="#{item.userName2}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </h:form>
                     </div>
                 </div>
             </ui:define>
@@ -21,20 +45,32 @@
             <ui:define name="center">
                 <div class="col-lg">
                     <div class="down">
+                        
+                        
                         <div class="box chirp">
                             <h:form>
                                 <div class="form-group">
-                                    <h:inputTextarea class="form-control" rows="3" pt:placeholder="Write your chirp"  value="#{chirpBean.chirp}"/>
+                                    <h:inputTextarea class="form-control" rows="3" pt:placeholder="Write your chirp"  value="#{chirpController.selected.textChirp}"/>
                                 </div>
                                 <div style="text-align: right;">
-                                    <h:commandButton class="btn btn-primary" id="chirp" value="Chirp"/>
+                                    <h:commandButton class="btn btn-primary" id="chirp" value="Chirp" action="#{chirpController.create}"/>
                                 </div>
                             </h:form>
                         </div>
-                        <div class="box chirp">
-                            <h5>User</h5>
-                            <p>Aqui ficara escrito o chirp</p>
-                        </div>
+                        
+                        <h:form styleClass="jsfcrud_list_form">
+                            <h:panelGroup rendered="#{chirpController.items.rowCount > 0}">
+                                <h:dataTable class="col" value="#{chirpController.items}" var="item">
+                                    <h:column>
+                                        <div class="box chirp">
+                                            <h:outputText class="user" value="#{item.userName}"/>
+                                            <br/>
+                                            <h:outputText value="#{item.textChirp}"/>
+                                        </div>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </h:form>
                     </div>
                 </div>
             </ui:define>

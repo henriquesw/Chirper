@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditFollowersTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditFollowersLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{followersController.selected.id}" title="#{bundle.EditFollowersTitle_id}" required="true" requiredMessage="#{bundle.EditFollowersRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditFollowersLabel_userName1}" for="userName1" />
+                    <h:inputText id="userName1" value="#{followersController.selected.userName1}" title="#{bundle.EditFollowersTitle_userName1}" required="true" requiredMessage="#{bundle.EditFollowersRequiredMessage_userName1}"/>
+                    <h:outputLabel value="#{bundle.EditFollowersLabel_userName2}" for="userName2" />
+                    <h:inputText id="userName2" value="#{followersController.selected.userName2}" title="#{bundle.EditFollowersTitle_userName2}" required="true" requiredMessage="#{bundle.EditFollowersRequiredMessage_userName2}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{followersController.update}" value="#{bundle.EditFollowersSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditFollowersViewLink}"/>
+                <br />
+                <h:commandLink action="#{followersController.prepareList}" value="#{bundle.EditFollowersShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditFollowersIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

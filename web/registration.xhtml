@@ -16,30 +16,30 @@
                         <h:form>
                             <div class="form-group">
                                 <label for="user">User</label>
-                                <h:inputText class="form-control" id="user" label="User" required="true" value="#{registrationBean.user}"/>
+                                <h:inputText class="form-control" id="user" label="User" required="true" value="#{usersController.selected.userName}"/>
                                 <h:message for="user"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email Address</label>
-                                <h:inputText class="form-control" id="email" label="Email Address" required="true" value="#{registrationBean.email}"/>
+                                <h:inputText class="form-control" id="email" label="Email Address" required="true" value="#{usersController.selected.email}"/>
                                 <h:message for="email"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <h:inputText class="form-control" id="password" label="Password" required="true" value="#{registrationBean.password}"/>
+                                <h:inputSecret class="form-control" id="password" label="Password" required="true" value="#{usersController.selected.userPassword}"/>
                                 <h:message for="password"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="passwordConfirmation">Password Confirmation</label>
-                                <h:inputText class="form-control" id="passwordConfirmation" label="Password Confirmation" required="true" value="#{registrationBean.passwordConfirmation}"/>
+                                <h:inputSecret class="form-control" id="passwordConfirmation" label="Password Confirmation" required="true" value="#{registrationBean.passwordConfirmation}"/>
                                 <h:message for="passwordConfirmation"/>
                             </div>
 
                             <div class="form-group">
-                                <h:commandButton class="btn btn-primary btn-block" id="signin" value="Sign in" action="#{registrationBean.register}" />
+                                <h:commandButton class="btn btn-primary btn-block" id="signin" value="Sign in" action="#{usersController.create}" />
                             </div>
                         </h:form>
                     </div>

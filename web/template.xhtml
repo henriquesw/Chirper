@@ -16,9 +16,11 @@
     </h:head>
 
     <h:body class="bg">
-        <nav class="navbar fixed-top navbar-light justify-content-around" style="background-color: white;">
+        <nav class="navbar fixed-top navbar-light justify-content-between" style="background-color: white;">
             <div class="container">
-                <a class="navbar-brand" href="/Chirper">Chirper</a>
+                <h:form>
+                    <h:commandLink class="navbar-brand" value="Chirper" action="#{userManager.logout}"/>
+                </h:form>
             </div>
         </nav>
         <div class="row full">
