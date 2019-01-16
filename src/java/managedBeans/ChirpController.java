@@ -45,47 +45,47 @@ public class ChirpController implements Serializable {
     }
 
     public PaginationHelper getPagination() {
-        if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+        pagination = new PaginationHelper(10) {
 
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
+            @Override
+            public int getItemsCount() {
+                return getFacade().count();
+            }
 
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
-        }
+            @Override
+            public DataModel createPageDataModel() {
+                //return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                return new ListDataModel(getFacade().findAll());
+            }
+        };
         return pagination;
     }
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "main";
     }
 
     public String prepareView() {
         current = (Chirp) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        return "main";
     }
 
     public String prepareCreate() {
         current = new Chirp();
         selectedItemIndex = -1;
-        return "Create";
+        return "main";
     }
 
     public String create() {
+        current.setUserName(UserManager.user);
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ChirpCreated"));
+            //JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ChirpCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            //JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -93,14 +93,14 @@ public class ChirpController implements Serializable {
     public String prepareEdit() {
         current = (Chirp) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return "main";
     }
 
     public String update() {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ChirpUpdated"));
-            return "View";
+            return "main";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -113,7 +113,7 @@ public class ChirpController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return "main";
     }
 
     public String destroyAndView() {
@@ -121,11 +121,11 @@ public class ChirpController implements Serializable {
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
-            return "View";
+            return "main";
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return "main";
         }
     }
 
@@ -154,9 +154,7 @@ public class ChirpController implements Serializable {
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
+        items = getPagination().createPageDataModel();
         return items;
     }
 
@@ -171,13 +169,13 @@ public class ChirpController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return "main";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return "main";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

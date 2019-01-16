@@ -2,8 +2,11 @@ package negocios;
 
 // @author WolfBattle
 
+import entidade.Chirp;
+import entidade.Followers;
 import java.util.List;
 import javax.persistence.EntityManager;
+import managedBeans.UserManager;
 
 
 public abstract class AbstractFacade<T> {
@@ -32,10 +35,12 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().find(entityClass, id);
     }
 
-    public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
+    public List<Chirp> findAll() {
+        return getEntityManager().createNamedQuery("Chirp.findFollowers", Chirp.class).setParameter("userName", UserManager.user).getResultList();
+    }
+    
+    public List<Followers> findAllF() {
+        return getEntityManager().createNamedQuery("Followers.findByUserName1", Followers.class).setParameter("userName1", UserManager.user).getResultList();
     }
 
     public List<T> findRange(int[] range) {

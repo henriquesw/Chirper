@@ -18,10 +18,12 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "chirp")
 @NamedQueries({
-    @NamedQuery(name = "Chirp.findAll", query = "SELECT c FROM Chirp c"),
-    @NamedQuery(name = "Chirp.findById", query = "SELECT c FROM Chirp c WHERE c.id = :id"),
-    @NamedQuery(name = "Chirp.findByUserName", query = "SELECT c FROM Chirp c WHERE c.userName = :userName"),
-    @NamedQuery(name = "Chirp.findByTextChirp", query = "SELECT c FROM Chirp c WHERE c.textChirp = :textChirp")})
+    @NamedQuery(name = "Chirp.findAll", query = "SELECT c FROM Chirp c ORDER BY c.id DESC"),
+    @NamedQuery(name = "Chirp.findById", query = "SELECT c FROM Chirp c WHERE c.id = :id ORDER BY c.id DESC"),
+    @NamedQuery(name = "Chirp.findByUserName", query = "SELECT c FROM Chirp c WHERE c.userName = :userName ORDER BY c.id DESC"),
+    @NamedQuery(name = "Chirp.findByTextChirp", query = "SELECT c FROM Chirp c WHERE c.textChirp = :textChirp ORDER BY c.id DESC"),
+    @NamedQuery(name = "Chirp.findFollowers", query = "SELECT c FROM Followers f, Chirp c WHERE :userName = f.userName1 AND c.userName = f.userName2 ORDER BY c.id DESC")
+})
 public class Chirp implements Serializable {
 
     private static final long serialVersionUID = 1L;

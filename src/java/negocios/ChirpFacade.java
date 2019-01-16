@@ -1,7 +1,5 @@
 package negocios;
 
-// @author WolfBattle
-
 import entidade.Chirp;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,7 +9,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ChirpFacade extends AbstractFacade<Chirp> {
 
-    @PersistenceContext(unitName = "ChirperPU")
+    @PersistenceContext(unitName = "Chirper1PU")
     private EntityManager em;
 
     @Override

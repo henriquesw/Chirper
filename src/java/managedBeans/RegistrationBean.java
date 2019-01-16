@@ -50,17 +50,5 @@ public class RegistrationBean {
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
     }
-    
-    public void register(){
-        
-        Users u = new Users();
-        u.setUserName(user);
-        u.setEmail(email);
-        u.setUserPassword(password);
-        
-        UsersController controller = new UsersController();
-        controller.createR(u);
-        
-    }
 
 }

@@ -2,14 +2,14 @@ package negocios;
 
 // @author WolfBattle
 
-import entidade.Users;
+import entidade.Followers;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 
 @Stateless
-public class UsersFacade extends AbstractFacade<Users> {
+public class FollowersFacade extends AbstractFacade<Followers> {
 
     @PersistenceContext(unitName = "Chirper1PU")
     private EntityManager em;
@@ -19,8 +19,8 @@ public class UsersFacade extends AbstractFacade<Users> {
         return em;
     }
 
-    public UsersFacade() {
-        super(Users.class);
+    public FollowersFacade() {
+        super(Followers.class);
     }
 
 }

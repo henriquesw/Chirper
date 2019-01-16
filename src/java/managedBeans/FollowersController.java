@@ -1,11 +1,14 @@
 package managedBeans;
 
+import managedBeans.*;
+import entidade.Followers;
 import entidade.Users;
 import managedBeans.util.JsfUtil;
 import managedBeans.util.PaginationHelper;
-import negocios.UsersFacade;
+import negocios.FollowersFacade;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -17,52 +20,51 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-@Named("usersController")
+@Named("followersController")
 @SessionScoped
-public class UsersController implements Serializable {
+public class FollowersController implements Serializable {
 
-    @Inject
-    FollowersController fc;
+    @PersistenceContext()
+    private EntityManager em;
     
-    private Users current;
+    private Followers current;
     private DataModel items = null;
     @EJB
-    private negocios.UsersFacade ejbFacade;
+    private negocios.FollowersFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public UsersController() {
+    public FollowersController() {
     }
 
-    public Users getSelected() {
+    public Followers getSelected() {
         if (current == null) {
-            current = new Users();
+            current = new Followers();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private UsersFacade getFacade() {
+    private FollowersFacade getFacade() {
         return ejbFacade;
     }
 
     public PaginationHelper getPagination() {
-        if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+        pagination = new PaginationHelper(10) {
 
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
+            @Override
+            public int getItemsCount() {
+                return getFacade().count();
+            }
 
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
-        }
+            @Override
+            public DataModel createPageDataModel() {
+                return new ListDataModel(getFacade().findAllF());
+            }
+        };
         return pagination;
     }
 
@@ -72,33 +74,40 @@ public class UsersController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Users) getItems().getRowData();
+        current = (Followers) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "main";
     }
 
     public String prepareCreate() {
-        current = new Users();
+        current = new Followers();
         selectedItemIndex = -1;
-        return "index";
+        return "main";
     }
 
     public String create() {
-        fc.createStart(current.getUserName());
-        try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            return null;
+        List<Users> results = em.createNamedQuery("Users.findByUserName", Users.class).setParameter("userName", current.getUserName2()).getResultList();
+        if(!results.isEmpty()){
+            current.setUserName1(UserManager.user);
+            try {
+                getFacade().create(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FollowersCreated"));
+                return prepareCreate();
+            } catch (Exception e) {
+                JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                return null;
+            }
         }
+        return "";
     }
     
-    public String createR(Users user) {
+    public String createStart(String user) {
+        current = new Followers();
+        current.setUserName1(user);
+        current.setUserName2(user);
         try {
-            getFacade().create(user);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersCreated"));
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FollowersCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -107,7 +116,7 @@ public class UsersController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Users) getItems().getRowData();
+        current = (Followers) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "main";
     }
@@ -115,7 +124,7 @@ public class UsersController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FollowersUpdated"));
             return "main";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -124,7 +133,7 @@ public class UsersController implements Serializable {
     }
 
     public String destroy() {
-        current = (Users) getItems().getRowData();
+        current = (Followers) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -148,7 +157,7 @@ public class UsersController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsersDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FollowersDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -170,9 +179,7 @@ public class UsersController implements Serializable {
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
+        items = getPagination().createPageDataModel();
         return items;
     }
 
@@ -187,13 +194,13 @@ public class UsersController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "main";
+        return "List";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "main";
+        return "List";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
@@ -204,30 +211,30 @@ public class UsersController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Users getUsers(java.lang.String id) {
+    public Followers getFollowers(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Users.class)
-    public static class UsersControllerConverter implements Converter {
+    @FacesConverter(forClass = Followers.class)
+    public static class FollowersControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UsersController controller = (UsersController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "usersController");
-            return controller.getUsers(getKey(value));
+            FollowersController controller = (FollowersController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "followersController");
+            return controller.getFollowers(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -238,11 +245,11 @@ public class UsersController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Users) {
-                Users o = (Users) object;
-                return getStringKey(o.getUserName());
+            if (object instanceof Followers) {
+                Followers o = (Followers) object;
+                return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Users.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Followers.class.getName());
             }
         }
 
